@@ -13,7 +13,7 @@ const ListContent = ({ listHeight, listContentRef, listRef, contentItems }) => {
   }, [])
   const getSize = React.useCallback((index) => {
     console.log('Retrieving component size', sizeMap.current[index])
-    return sizeMap.current[index] || 130
+    return sizeMap.current[index] || 30
   }, [])
   const [windowWidth] = useWindowSize()
 
@@ -28,10 +28,11 @@ const ListContent = ({ listHeight, listContentRef, listRef, contentItems }) => {
             itemSize={getSize}
             width="100%"
             ref={listRef}
+            overscanCount={150}
           >
             {({ index, style }) => (
               <div style={style}>
-                <ListItem index={index} message={contentItems[index]} />
+                <ListItem index={index} payload={contentItems[index]} />
               </div>
             )}
           </List>

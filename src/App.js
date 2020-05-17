@@ -3,6 +3,9 @@ import logo from './logo.svg'
 import './App.css'
 import './styles.css'
 import LargeList from './LargeList'
+import generateData from './generate'
+
+const data = generateData(1000)
 
 function App() {
   return (
@@ -22,7 +25,7 @@ function App() {
         </a>
       </header>
       <main>
-        <LargeList />
+        <LargeList data={data} />
       </main>
     </div>
   )

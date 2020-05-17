@@ -1,6 +1,5 @@
 import React, { Component, createRef } from 'react'
 import ListContent from './ListContent'
-import faker from 'faker'
 
 class LargeList extends Component {
   constructor(props) {
@@ -15,22 +14,13 @@ class LargeList extends Component {
 
   componentDidMount() {
     const listHeight = this.listContentRef.current.offsetHeight
-    console.log('Comp did mount', listHeight)
     this.setState({ listHeight })
-
     this.populateList()
   }
 
   populateList = () => {
-    let contentItems = []
-    for (let i = 0; i < 3; i++) {
-      const text = faker.fake(
-        `--START-${i}-{{lorem.words(${parseInt(80)})}}---END---`
-      )
-      contentItems.push({ text })
-    }
-
-    this.setState(() => ({ contentItems }), this.handleScroll)
+    const { data } = this.props
+    this.setState(() => ({ contentItems: data }), this.handleScroll)
   }
 
   handleScroll = () => {
