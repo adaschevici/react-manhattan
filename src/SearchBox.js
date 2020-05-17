@@ -19,8 +19,7 @@ class ReactVirtualizedList extends Component {
     return (
       <div key={key} style={style} className={styles.row}>
         <div className={styles.content}>
-          <div>{this.props.searchResults[index].id}</div>
-          <div>{this.props.searchResults[index].originalTitle}</div>
+          <div>{this.props.searchResults[index].title}</div>
         </div>
       </div>
     )

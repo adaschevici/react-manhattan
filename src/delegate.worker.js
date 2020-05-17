@@ -29,7 +29,7 @@ function search(e) {
 
 /* self.onmessage is the handler that responds to messages from
 the main thread, which only fires during initiation */
-window.self.onmessage = function (e) {
+self.onmessage = function (e) {
   const { data } = e.data
   initiate(data, e.ports[0])
 }

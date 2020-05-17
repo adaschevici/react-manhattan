@@ -21,14 +21,14 @@ function initiatePort(workerName, port) {
     }
 
     cache[searchTerm] = message
-    window.self.postMessage(message)
+    self.postMessage(message)
   }
 }
 
 function dispatchSearchRequest(searchTerm) {
   const cachedResult = cache[searchTerm]
   if (cachedResult) {
-    window.self.postMessage(cachedResult)
+    self.postMessage(cachedResult)
     return
   }
   const message = searchTerm
@@ -47,7 +47,7 @@ function dispatchSearchRequest(searchTerm) {
   queue = message
 }
 
-window.self.onmessage = function (e) {
+self.onmessage = function (e) {
   const { workerName, searchTerm } = e.data
 
   if (workerName) {
