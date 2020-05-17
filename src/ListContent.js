@@ -33,9 +33,9 @@ class ListContent extends Component {
 
   getSize(index) {
     if (this.sizeMap.current) {
-      return this.sizeMap.current[index] || 130
+      return this.sizeMap.current[index] || 30
     }
-    return 130
+    return 30
   }
 
   render() {
@@ -55,7 +55,7 @@ class ListContent extends Component {
               <div style={style}>
                 <ListItem
                   index={index}
-                  message={contentItems[index]}
+                  payload={contentItems[index]}
                   setSize={this.setSize}
                   windowWidth={windowWidth}
                 />

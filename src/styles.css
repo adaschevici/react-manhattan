@@ -1,4 +1,4 @@
-.message {
+.payload {
   white-space: pre-line;
   grid-area: message;
   display: inline-block;

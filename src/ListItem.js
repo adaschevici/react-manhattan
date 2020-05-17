@@ -12,20 +12,17 @@ class ListItem extends Component {
   }
 
   render() {
-    const { text } = this.props.message
+    const { name, email, randomHeight } = this.props.payload
+    const { index } = this.props
     return (
-      <div ref={this.root} className="message">
-        {text}
+      <div ref={this.root} className="payload">
+        <div>{index}</div>
+        <div>{name}</div>
+        <div>{email}</div>
+        <div style={{ height: randomHeight }} />
       </div>
     )
   }
 }
-// const ListItem = ({ message, index }) => {
-//   const { text } = message
-//   const { setSize, windowWidth } = React.useContext(ListContext)
-//   const root = React.useRef()
-//   React.useEffect(() => {
-//     setSize(index, root.current.getBoundingClientRect().height)
-//   }, [windowWidth, setSize, index])
-// }
+
 export default ListItem

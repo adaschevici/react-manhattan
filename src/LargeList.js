@@ -22,15 +22,8 @@ class LargeList extends Component {
   }
 
   populateList = () => {
-    let contentItems = []
-    for (let i = 0; i < 300; i++) {
-      const text = faker.fake(
-        `--START-${i}-{{lorem.words(${parseInt(80)})}}---END---`
-      )
-      contentItems.push({ text })
-    }
-
-    this.setState(() => ({ contentItems }), this.handleScroll)
+    const { data } = this.props
+    this.setState(() => ({ contentItems: data }), this.handleScroll)
   }
 
   handleScroll = () => {
