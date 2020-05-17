@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
 import styles from './SearchBox.css'
+import WorkerArrayController from './worker-array'
+import { books } from './titles.json'
 import { List } from 'react-virtualized'
 
 class ReactVirtualizedList extends Component {
@@ -17,7 +19,8 @@ class ReactVirtualizedList extends Component {
     return (
       <div key={key} style={style} className={styles.row}>
         <div className={styles.content}>
-          <div>{this.props.searchResults[index].title}</div>
+          <div>{this.props.searchResults[index].id}</div>
+          <div>{this.props.searchResults[index].originalTitle}</div>
         </div>
       </div>
     )
@@ -45,21 +48,25 @@ class SearchResults extends Component {
     this.state = {
       searchResults: [],
     }
+    this.workerArray = new WorkerArrayController({
+      data: books,
+      handleResults: this.handleResults,
+      arraySize: 4,
+    })
   }
+
   componentDidUpdate(prevProps) {
     const { searchTerm } = this.props
     if (searchTerm && searchTerm !== prevProps.searchTerm) {
-      console.log({ searchTerm })
-      fetch(`/search`, {
-        method: 'POST',
-        body: JSON.stringify({ searchTerm }),
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      })
-        .then((r) => r.json())
-        .then((resp) => this.setState({ searchResults: resp.searchResults }))
+      this.workerArray.search({ searchTerm })
     }
+  }
+
+  handleResults = (evt) => {
+    const { searchResults } = evt.data
+    this.setState({
+      searchResults,
+    })
   }
 
   render() {
