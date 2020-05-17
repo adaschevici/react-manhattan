@@ -1,44 +1,71 @@
-import React from 'react'
+import React, { Component, createRef } from 'react'
 import { VariableSizeList as List } from 'react-window'
 import ListItem from './ListItem'
-import { useWindowSize } from './useWindowResize'
 
-export const ListContext = React.createContext({})
+class ListContent extends Component {
+  state = {
+    width: 0,
+    height: 0,
+  }
 
-const ListContent = ({ listHeight, listContentRef, listRef, contentItems }) => {
-  const sizeMap = React.useRef({})
-  const setSize = React.useCallback((index, size) => {
-    console.log('Setting size on ref', index, size)
-    sizeMap.current = { ...sizeMap.current, [index]: size }
-  }, [])
-  const getSize = React.useCallback((index) => {
-    console.log('Retrieving component size', sizeMap.current[index])
-    return sizeMap.current[index] || 130
-  }, [])
-  const [windowWidth] = useWindowSize()
+  constructor(props) {
+    super(props)
+    this.sizeMap = createRef()
+    this.setSize = this.setSize.bind(this)
+    this.getSize = this.getSize.bind(this)
+    this.updateSize = this.updateSize.bind(this)
+  }
 
-  console.log('Rendering list content', listHeight)
-  return (
-    <ListContext.Provider value={{ setSize, windowWidth }}>
+  componentDidMount() {
+    window.addEventListener('resize', this.updateSize)
+  }
+
+  componentWillMount() {
+    window.removeEventListener('resize', this.updateSize)
+  }
+
+  updateSize() {
+    this.setState({ width: window.innerWidth, height: window.innerHeight })
+  }
+  setSize(index, size) {
+    this.sizeMap.current = { ...this.sizeMap.current, [index]: size }
+  }
+
+  getSize(index) {
+    if (this.sizeMap.current) {
+      return this.sizeMap.current[index] || 130
+    }
+    return 130
+  }
+
+  render() {
+    const { listHeight, listContentRef, listRef, contentItems } = this.props
+    const { width: windowWidth } = this.state
+    return (
       <div ref={listContentRef} className="listContent">
         {contentItems.length > 0 && (
           <List
             height={listHeight}
             itemCount={contentItems.length}
-            itemSize={getSize}
+            itemSize={this.getSize}
             width="100%"
             ref={listRef}
           >
             {({ index, style }) => (
               <div style={style}>
-                <ListItem index={index} message={contentItems[index]} />
+                <ListItem
+                  index={index}
+                  message={contentItems[index]}
+                  setSize={this.setSize}
+                  windowWidth={windowWidth}
+                />
               </div>
             )}
           </List>
         )}
       </div>
-    </ListContext.Provider>
-  )
+    )
+  }
 }
 
 export default ListContent

@@ -23,7 +23,7 @@ class LargeList extends Component {
 
   populateList = () => {
     let contentItems = []
-    for (let i = 0; i < 3; i++) {
+    for (let i = 0; i < 300; i++) {
       const text = faker.fake(
         `--START-${i}-{{lorem.words(${parseInt(80)})}}---END---`
       )
